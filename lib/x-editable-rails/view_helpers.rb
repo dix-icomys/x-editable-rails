@@ -18,6 +18,7 @@ module X
         #       - enumerable shorthand ['Yes', 'No', 'Maybe'] becomes { 'Yes' => 'Yes', 'No' => 'No', 'Maybe' => 'Maybe' }
         #     classes: a Hash of classes to add based on the value (same format and shorthands as source)
         #   value: override the object's value
+        #   as: class name of object
         #
         def editable(object, method, options = {})
           options = Configuration.method_options_for(object, method).deep_merge(options).with_indifferent_access
@@ -52,7 +53,7 @@ module X
             # any remaining options become data attributes
             data  = {
               type:   type,
-              model:  model,
+              model:  options[:as] || model,
               name:   method,
               value:  ( type == 'wysihtml5' ? Base64.encode64(output_value) : output_value ), 
               placeholder: placeholder,
